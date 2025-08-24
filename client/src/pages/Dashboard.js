@@ -17,7 +17,7 @@ import {
   Activity,
   Bell
 } from 'lucide-react';
-import axios from 'axios';
+
 import { useNotification } from '../contexts/NotificationContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -26,28 +26,39 @@ const Dashboard = () => {
   const { sendMotivationalQuote } = useNotification();
   const navigate = useNavigate();
 
-  // Fetch dashboard data
-  const { data: dashboardData, isLoading, error, refetch } = useQuery(
-    'dashboard',
-    async () => {
-      const response = await axios.get('/api/dashboard');
-      return response.data;
+  // Mock dashboard data for demo
+  const mockDashboardData = {
+    quote: {
+      quote: "The only bad workout is the one that didn't happen.",
+      author: "Unknown"
     },
-    {
-      refetchInterval: 30000, // Refetch every 30 seconds
-    }
-  );
+    habits: [
+      { id: 1, name: 'Morning Exercise', category: 'fitness', completed: true, streak: 5 },
+      { id: 2, name: 'Drink Water', category: 'health', completed: false, streak: 3 },
+      { id: 3, name: 'Meditation', category: 'mindfulness', completed: true, streak: 7 },
+      { id: 4, name: 'Read Books', category: 'learning', completed: false, streak: 2 }
+    ],
+    stats: {
+      totalHabits: 4,
+      completedToday: 2,
+      currentStreak: 5,
+      totalDays: 30
+    },
+    badges: [
+      { id: 1, name: 'Early Bird', description: 'Complete 5 morning habits', earned: true },
+      { id: 2, name: 'Consistency King', description: 'Maintain a 7-day streak', earned: true },
+      { id: 3, name: 'Wellness Warrior', description: 'Complete all habits for 30 days', earned: false }
+    ]
+  };
 
-  // Toggle habit completion
+  const dashboardData = mockDashboardData;
+  const isLoading = false;
+  const error = null;
+
+  // Toggle habit completion (mock implementation)
   const toggleHabit = async (habitId, completed) => {
-    try {
-      await axios.post(`/api/habits/${habitId}/toggle`, {
-        completed_date: selectedDate.toISOString().split('T')[0]
-      });
-      refetch(); // Refetch dashboard data
-    } catch (error) {
-      console.error('Error toggling habit:', error);
-    }
+    // In demo mode, just show a success message
+    console.log(`Habit ${habitId} ${completed ? 'completed' : 'uncompleted'}`);
   };
 
   // Send motivational quote notification

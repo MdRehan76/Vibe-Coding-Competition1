@@ -11,18 +11,21 @@ import {
   User, 
   Menu, 
   X,
-  LogOut,
   Settings
 } from 'lucide-react';
-import { useAuth } from '../contexts/AuthContext';
 import { useNotification } from '../contexts/NotificationContext';
 
 const Layout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { user, logout } = useAuth();
   const { requestPermission, permission } = useNotification();
   const location = useLocation();
   const navigate = useNavigate();
+
+  // Default user data for demo
+  const user = {
+    name: 'Demo User',
+    email: 'demo@wellness.com'
+  };
 
   const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: Home },
@@ -35,8 +38,8 @@ const Layout = () => {
   ];
 
   const handleLogout = () => {
-    logout();
-    navigate('/login');
+    // Since we're not using authentication, just show a message
+    alert('Logout functionality is disabled in demo mode');
   };
 
   const handleNotificationPermission = async () => {
@@ -130,10 +133,10 @@ const Layout = () => {
           
           <button
             onClick={handleLogout}
-            className="w-full flex items-center px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50 hover:text-red-700 rounded-lg transition-colors duration-200"
+            className="w-full flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 rounded-lg transition-colors duration-200"
           >
-            <LogOut className="w-5 h-5 mr-3" />
-            Logout
+            <Settings className="w-5 h-5 mr-3" />
+            Demo Mode
           </button>
         </div>
       </motion.div>

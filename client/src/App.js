@@ -1,9 +1,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { NotificationProvider } from './contexts/NotificationContext';
 import Layout from './components/Layout';
-import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Habits from './pages/Habits';
 import Reminders from './pages/Reminders';
@@ -12,52 +10,11 @@ import Schedules from './pages/Schedules';
 import Yoga from './pages/Yoga';
 import Profile from './pages/Profile';
 
-// Protected Route Component
-const ProtectedRoute = ({ children }) => {
-  const { user, loading } = useAuth();
-  
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="spinner"></div>
-      </div>
-    );
-  }
-  
-  return user ? children : <Navigate to="/login" replace />;
-};
-
-// Public Route Component (redirects to dashboard if already logged in)
-const PublicRoute = ({ children }) => {
-  const { user, loading } = useAuth();
-  
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="spinner"></div>
-      </div>
-    );
-  }
-  
-  return user ? <Navigate to="/dashboard" replace /> : children;
-};
-
 function AppRoutes() {
   return (
     <Routes>
-      {/* Public Routes */}
-      <Route path="/login" element={
-        <PublicRoute>
-          <Login />
-        </PublicRoute>
-      } />
-      
-      {/* Protected Routes */}
-      <Route path="/" element={
-        <ProtectedRoute>
-          <Layout />
-        </ProtectedRoute>
-      }>
+      {/* Main App Routes */}
+      <Route path="/" element={<Layout />}>
         <Route index element={<Navigate to="/dashboard" replace />} />
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="habits" element={<Habits />} />
@@ -69,18 +26,16 @@ function AppRoutes() {
       </Route>
       
       {/* Catch all route */}
-      <Route path="*" element={<Navigate to="/login" replace />} />
+      <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
   );
 }
 
 function App() {
   return (
-    <AuthProvider>
-      <NotificationProvider>
-        <AppRoutes />
-      </NotificationProvider>
-    </AuthProvider>
+    <NotificationProvider>
+      <AppRoutes />
+    </NotificationProvider>
   );
 }
 
