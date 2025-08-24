@@ -128,7 +128,6 @@ export const AuthProvider = ({ children }) => {
     user,
     loading,
     login,
-    register,
     sendOTP,
     verifyOTP,
     logout,

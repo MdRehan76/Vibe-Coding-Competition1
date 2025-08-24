@@ -196,15 +196,6 @@ const Login = () => {
           {/* Links */}
           <div className="text-center space-y-2">
             <p className="text-sm text-gray-600">
-              Don't have an account?{' '}
-              <Link
-                to="/register"
-                className="font-medium text-primary-600 hover:text-primary-500 transition-colors duration-200"
-              >
-                Sign up here
-              </Link>
-            </p>
-            <p className="text-sm text-gray-600">
               <Link
                 to="/forgot-password"
                 className="font-medium text-primary-600 hover:text-primary-500 transition-colors duration-200"
